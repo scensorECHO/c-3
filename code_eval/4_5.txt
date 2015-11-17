@@ -3,10 +3,10 @@ CSE-142: C & Unix
 Assignment 3: Exercise 4.5
 
 4.5)
-a) Semicolons were not used in the for loop
+a) Semicolons were not used in the for loop, for shouldn't be capitalized
 b) No "break;" was used to stop the second case from being called. Will output both "Even integer" and "Odd integer: if the value was even. 
 c) Assuming it was typed in "100 A", the space would be the char that is pulled by getChar(), not 'A'
 d) The loop will never run since x is initialised as 0.000001 and the loop only runs if x is equal to 0.0001
 e) The incrementer increasing by 2, but x starts at 999. It will forever count up rather than down to 1. 
-f) Do and While should not be capitalized.
+f) Do and While should not be capitalized. Counter was not initialized as unsigned int
 g) There's a semicolon after the for loop, so nothing in the braces are run 
