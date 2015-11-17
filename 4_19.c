@@ -3,10 +3,11 @@
 void prInst();
 void prProd();
 void prQuan();
-void prInve();
+void prInve(int* i);
 void prErro(int error);
-int main(){
+int showTotal(int* i,float* c);
 
+int main(){
 	int userinput;
 	int quantity;
 	unsigned int c;
@@ -19,7 +20,8 @@ int main(){
 	days[5]="SAT";
 	days[6]="SUN";
 	int inv [] = {0,0,0,0,0};
-
+	float cost [] = {2.98,4.50,9.98,4.49,6.87};
+	
 	// Show instructions
 	prInst();
 
@@ -43,16 +45,16 @@ int main(){
 					break;
 				default:
 					if(userinput==-2){
-						return 1; // exited early
+						return showTotal(inv,cost); // exited early
 					} else {
-						prError(1);
+						prErro(1);
 					}
 			}
 			prProd();
 			scanf("%d",&userinput);
 		}
 	}
-	return 0; // success	
+	return showTotal(inv,cost);	
 }
 
 void prInst(){
@@ -69,11 +71,20 @@ void prQuan(){
 	printf("Enter the quantity\n");
 }
 
-void prInve(){
+void prInve(int* i){
 	unsigned int x;
 	for( x=0; x<5; x++){
-		printf("Product %d: Quantity %3d\n",x,inv[x]);
+		printf("Product %d: Quantity %3d\n",x,i[x]);
 	}
+}
+
+// display total quantity sold for the 5 products
+int showTotal(int* i, float* c){
+	unsigned int p;
+	for( p=0; p<5; p++){
+		printf("Product %2d:%3d\tTotal Cost: $%.2f\n",p+1,i[p],i[p]*c[p]);
+	}
+	return 0;
 }
 
 void prErro(int error){
