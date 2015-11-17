@@ -23,3 +23,19 @@ for ( x=0.000001; x<=0.0001; x+=0.000001){
 }
 
 //e
+for(x=999;x>=1;x-=2){
+	printf("%d\n",x);
+}
+
+//f 
+unsigned int counter = 2;
+do{
+	if( counter%2 == 0 ){
+		printf( "%u\n",counter);
+	}
+} while( counter < 100);
+
+//g
+for( x=100; x<=150; ++x){
+	total+=x;
+}
