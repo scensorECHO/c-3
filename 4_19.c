@@ -43,12 +43,10 @@ int main(){
 					// this allows for rollback of inventory 
 					//if values entered incorrectly
 					break;
+				case -2:
+					return showTotal(inv,cost); // exited early
 				default:
-					if(userinput==-2){
-						return showTotal(inv,cost); // exited early
-					} else {
-						prErro(1);
-					}
+					prErro(1);
 			}
 			prProd();
 			scanf("%d",&userinput);
