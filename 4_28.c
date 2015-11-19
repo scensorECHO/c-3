@@ -4,14 +4,10 @@
 
 // Calculating weekly pay
 
-// functions
-int respHrs(int h);
-void promptCode();
-
 // globals
 const char* codestr = "Please enter the employee pay code (-1 to end employee input): ";
 const char* fname = "Enter employee last name: ";	
-const char* totalPaycheck = "%s's total paycheck is $%f\n\n";
+const char* totalPaycheck = "%s's total paycheck is $%.2f\n\n";
 int c = 0; // counter for array
 int len = 0; // length of array
 typedef struct {
@@ -19,12 +15,16 @@ typedef struct {
 	char* name;
 	float total;
 } Employee;
+Employee *payroll;
 
 
+// functions
+int respHrs(int h);
+void promptCode();
+int addToArray (Employee item);
 int main(){
 
 	int paycode;
-	Employee *payroll;
 	
 	// const size_t BUFFER = 18; // buffer for parsing float/int
 	// const size_t BUF_CODE = 1; // buffer for paycode - always 1
@@ -40,16 +40,6 @@ int main(){
 	promptCode();
 	scanf("%d", &paycode);
 
-	/* I'm setting up my program to hold a 2D array of strings
-	 * (char[][][]) in order to hold given values for each 
-	 * inputted employee. 
-	 * Following data structure schema: 
-	 * manager:   	{type, name, salary}
-	 * hourly:    	{type, name, hours, wage, total}
-	 * commission:	{type, name, sales, total}
-	 * pieceworker:	{type, name, produced, price, total}
-	 */
-
 	while(paycode!=-1){
 		// Check user input and respond
 		switch(paycode){
@@ -64,21 +54,21 @@ int main(){
 
 				// Manager specific: Get weekly salary
 				printf("How much is their weekly salary? (X.XX): ");
-				scanf("%s", &emp.total);
+				scanf("%f", &emp.total);
 
 				// Display paycheck to user
-				printf(totalPaycheck,emp.name,emp.total);
+				printf(totalPaycheck,&emp.name,emp.total);
 
 				// Add Employee to array
 				c=addToArray(emp);
 				break;
 			case 2: // hourly
 				// Set employees pay code
-				emp.name=paycode;
+				emp.paycode=paycode;
 				
 				// Prompt for user First name
 				printf(fname);
-				scanf("%s", &emp[c][f++]);
+				scanf("%s", &emp.name);
 
 				// Get hours worked 
 				printf("Enter the number of hours worked (integer): ");
@@ -90,7 +80,7 @@ int main(){
 			
 				// Calculate total and display to user
 				emp.total=wage*respHrs(hours);
-				printf(totalPaycheck,emp.name,emp.total);
+				printf(totalPaycheck,&emp.name,emp.total);
 
 				// Add Employee to array
 				c=addToArray(emp);
@@ -101,7 +91,7 @@ int main(){
 				
 				// Prompt for user First name
 				printf(fname);
-				scanf("%s", &emp[c][f++]);
+				scanf("%s", &emp.name);
 
 				// Get total sales 
 				printf("Enter total sales (X.XX):");
@@ -109,7 +99,7 @@ int main(){
 				
 				// Calculate total and display to user
 				emp.total=sales+250.00;
-				printf(totalPaycheck,emp.name,emp.total);
+				printf(totalPaycheck,&emp.name,emp.total);
 
 				// Add Employee to array
 				c=addToArray(emp);
@@ -120,7 +110,7 @@ int main(){
 				
 				// Prompt for user First name
 				printf(fname);
-				scanf("%s", &emp[c][f++]);
+				scanf("%s", &emp.name);
 
 				// Pieceworker: Get items sold
 				printf("Enter number of items sold (integer): ");
@@ -132,7 +122,7 @@ int main(){
 
 				// Calculate total and display to user
 				emp.total=quantity*price;
-				printf(totalPaycheck,emp.name,emp.total);
+				printf(totalPaycheck,&emp.name,emp.total);
 
 				// Add Employee to array
 				c=addToArray(emp);
@@ -141,7 +131,7 @@ int main(){
 				printf("Successfully parsed paycode as %d\n",paycode);
 				break;
 			default:
-				printf("Value \"%s\"does not relate to any action\n",paycode);
+				printf("Value \"%d\" does not relate to any action\n",paycode);
 				break;
 		}
 		promptCode();
@@ -164,28 +154,27 @@ void promptCode(){
 	printf(codestr);
 }
 
-int AddToArray (Employee item)
-{
-        if(c == len)
-        { 
-                if (len == 0)
-                        len = 3; // Start off with 3 refs
-                else
-                        len *= 2; // Double the number 
+int addToArray (Employee item){
+	if(c == len)
+	{ 
+		if (len == 0)
+			len = 3; // Start off with 3 refs
+		else
+			len *= 2; // Double the number 
 
-                void *tmp = realloc(payroll, (len * sizeof(Employee)));
-                if (!tmp)
-                {
-                        fprintf(stderr, "ERROR: Couldn't realloc memory!\n");
-                        return(-1);
-                }
+		void *tmp = realloc(payroll, (len * sizeof(Employee)));
+		if (!tmp)
+		{
+			fprintf(stderr, "ERROR: Couldn't realloc memory!\n");
+			return(-1);
+		}
 
-                // Things are looking good so far
-                payroll = (Employee*)tmp;
-        }
+		// Things are looking good so far
+		payroll = (Employee*)tmp;
+	}
 
-        payroll[c] = item;
-        c++;
+	payroll[c] = item;
+	c++;
 
-        return c;
+	return c;
 }
