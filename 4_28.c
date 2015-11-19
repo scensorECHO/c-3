@@ -14,13 +14,23 @@ int main(){
 
 	// standard strings
 	const char* fname = "Enter full name: ";
-	const size_t BUFFER = 18; // quadrillion + 3 spaces for decimal
+	const char* codestr = "Please enter the employee pay code (-1 to end employee input): ";
+	const size_t BUFFER = 18; // buffer for parsing float/int
+	const size_t BUF_CODE = 1; // buffer for paycode - always 1
+
+	// parse values for arithmetic in switch
+	int hours;
+	float wage;
+	float sales;
+	float total;
+	int quantity;
+	float price;
 
 	char*** emp;
 	// 3d array contains strings, list of info, and list of lists
 
 	promptCode();
-	scanf("%s", &paycode);
+	scanf("%d", &paycode);
 
 	/* I'm setting up my program to hold a 2D array of strings
 	 * (char[][][] or char***) in order to hold given values for
@@ -32,36 +42,34 @@ int main(){
 	 * pieceworker:	{type, name, produced, price, total}
 	 */
 
-	while(paycode!='-1'){
+	while(paycode!=-1){
 		f=0; // reset field counter
 		switch(paycode){
-			case '1': // manager
-				emp[c][f++]=paycode;
+			case 1: // manager
+				//snprintf(emp[c][f++],BUF_CODE,"%d",paycode);
 				printf(fname);
 				scanf("%s", &emp[c][f++]);
 				printf("How much is their weekly salary? (X.XX): ");
 				scanf("%s", &emp[c][f]);
 				printf("%s's total paycheck is %s\n\n",emp[c][1],emp[c][2]);
 				c++;
-			case '2': // hourly
-				int hours;
-				float wage;
-				emp[c][f++]=paycode;
+				break;
+			case 2: // hourly
+				snprintf(emp[c][f++],BUF_CODE,"%d",paycode);
 				printf(fname);
 				scanf("%s", &emp[c][f++]);
 				printf("Enter the number of hours worked (integer): ");
 				scanf("%d", hours);
-				snprintf(&emp[c][f++],BUFFER,"%d",hours);
+				snprintf(emp[c][f++],BUFFER,"%d",hours);
 				printf("Enter hourly wage (X.XX):");
 				scanf("%f", &wage);
-				snprintf(&emp[c][f++],BUFFER,"%.2f",wage)
+				snprintf(emp[c][f++],BUFFER,"%.2f",wage);
 				//emp[c][f]= atof(emp[c])*respHrs(strtol(emp[c][2]));
 				snprintf(emp[c][f],BUFFER,"%.2f",wage*respHrs(hours));
 				c++;
-			case '3': // commission
-				float sales;
-				float total;
-				emp[c][f++]=paycode;
+				break;
+			case 3: // commission
+				snprintf(emp[c][f++],BUF_CODE,"%d",paycode);
 				printf(fname);
 				scanf("%s", &emp[c][f++]);
 				printf("Enter total sales (X.XX):");
@@ -70,10 +78,9 @@ int main(){
 				snprintf(emp[c][f],BUFFER,"%.2f",sales+250.00);
 				printf("Total amount paid to %s: %s",emp[c][1],emp[c][3]);
 				c++;
-			case '4': // pieceworker
-				int quantity;
-				float price;
-				emp[c][f++]=paycode;
+				break;
+			case 4: // pieceworker
+				snprintf(emp[c][f++],BUF_CODE,"%d",paycode);
 				printf(fname);
 				scanf("%s", &emp[c][f++]);
 				printf("Enter number of items sold (integer): ");
@@ -85,11 +92,16 @@ int main(){
 				snprintf(emp[c][f],BUFFER,"%.2f",quantity*price);
 				printf("Total amount paid to %s: %s",emp[c][1],emp[c][4]);
 				c++;
-
+				break;
+			case 5:
+				printf("Successfully parsed paycode as %\n",paycode);
+				break;
 			default:
 				printf("Value \"%s\"does not relate to any action\n",paycode);
+				break;
 		}
 		promptCode();
+		scanf("%d", &paycode);
 	}
 } 
 
@@ -105,5 +117,5 @@ int respHrs(int h){
 }
 
 void promptCode(){
-	printf("Please enter the employee pay code (-1 to end employee input): ");
+	printf(codestr);
 }
