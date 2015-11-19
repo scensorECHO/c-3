@@ -10,6 +10,10 @@ void promptCode();
 
 // globals
 const char* codestr = "Please enter the employee pay code (-1 to end employee input): ";
+const char* fname = "Enter employee last name: ";	
+const char* totalPaycheck = "%s's total paycheck is $%f\n\n";
+int c = 0; // counter for array
+int len = 0; // length of array
 typedef struct {
 	int paycode;
 	char* name;
@@ -21,12 +25,6 @@ int main(){
 
 	int paycode;
 	Employee *payroll;
-	int c = 0; // counter for array
-	int len = 0; // length of array
-
-	// standard strings
-	const char* fname = "Enter employee last name: ";
-	const char* totalPaycheck = "%s's total paycheck is $%f\n\n";
 	
 	// const size_t BUFFER = 18; // buffer for parsing float/int
 	// const size_t BUF_CODE = 1; // buffer for paycode - always 1
@@ -72,7 +70,7 @@ int main(){
 				printf(totalPaycheck,emp.name,emp.total);
 
 				// Add Employee to array
-				addToArray(emp);
+				c=addToArray(emp);
 				break;
 			case 2: // hourly
 				// Set employees pay code
@@ -95,7 +93,7 @@ int main(){
 				printf(totalPaycheck,emp.name,emp.total);
 
 				// Add Employee to array
-				addToArray(emp);
+				c=addToArray(emp);
 				break;
 			case 3: // commission
 				// Set employees pay code
@@ -114,7 +112,7 @@ int main(){
 				printf(totalPaycheck,emp.name,emp.total);
 
 				// Add Employee to array
-				addToArray(emp);
+				c=addToArray(emp);
 				break;
 			case 4: // pieceworker
 				// Set employees pay code
@@ -137,7 +135,7 @@ int main(){
 				printf(totalPaycheck,emp.name,emp.total);
 
 				// Add Employee to array
-				addToArray(emp);
+				c=addToArray(emp);
 				break;
 			case 5: // test case
 				printf("Successfully parsed paycode as %d\n",paycode);
@@ -164,4 +162,30 @@ int respHrs(int h){
 
 void promptCode(){
 	printf(codestr);
+}
+
+int AddToArray (Employee item)
+{
+        if(c == len)
+        { 
+                if (len == 0)
+                        len = 3; // Start off with 3 refs
+                else
+                        len *= 2; // Double the number 
+
+                void *tmp = realloc(payroll, (len * sizeof(Employee)));
+                if (!tmp)
+                {
+                        fprintf(stderr, "ERROR: Couldn't realloc memory!\n");
+                        return(-1);
+                }
+
+                // Things are looking good so far
+                payroll = (Employee*)tmp;
+        }
+
+        payroll[c] = item;
+        c++;
+
+        return c;
 }
