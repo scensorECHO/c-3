@@ -33,7 +33,6 @@ int main(){
 	float total;
 	int quantity;
 	float price;
-
 	
 	// 3d array contains strings > list of info > list of lists
 	char emp[len][5][24];// = (char*) malloc(5*len*sizeof(char)*24);
@@ -43,8 +42,8 @@ int main(){
 	scanf("%d", &paycode);
 
 	/* I'm setting up my program to hold a 2D array of strings
-	 * (char[][][] or char***) in order to hold given values for
-	 * each inputted employee. 
+	 * (char[][][]) in order to hold given values for each 
+	 * inputted employee. 
 	 * Following data structure schema: 
 	 * manager:   	{type, name, salary}
 	 * hourly:    	{type, name, hours, wage, total}
@@ -178,7 +177,7 @@ int main(){
 // "time and a half" here
 int respHrs(int h){
 	if(h>40){
-		return (((h-40)*1.5)+40);
+		return (int)(((h-40)*1.5)+40);
 	} else {
 		return h;
 	}
