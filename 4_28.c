@@ -67,6 +67,7 @@ int main(){
 					}
 				}
 			}
+			// zero array and set to new size
 			memset(emp,0,5*len*sizeof(char)*24);
 			//emp = tempE;
 			for(int x=0; x<c; x++){
@@ -106,7 +107,7 @@ int main(){
 
 				// Get hours worked 
 				printf("Enter the number of hours worked (integer): ");
-				scanf("%d", hours);
+				scanf("%d", &hours);
 				snprintf(emp[c][f++],BUFFER,"%d",hours);
 				
 				// Get hourly wage
