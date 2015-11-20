@@ -8,6 +8,7 @@
 const char* codestr = "Please enter the employee pay code (-1 to end employee input): ";
 const char* fname = "Enter employee last name: ";	
 const char* totalPaycheck = "%s's total paycheck is $%.2f\n\n";
+const char* top = "==========";
 int c = 0; // counter for array
 int len = 0; // length of array
 typedef struct {
@@ -25,9 +26,6 @@ int addToArray (Employee item);
 int main(){
 
 	int paycode;
-	
-	// const size_t BUFFER = 18; // buffer for parsing float/int
-	// const size_t BUF_CODE = 1; // buffer for paycode - always 1
 
 	// parse values for arithmetic in switch
 	int hours;
@@ -137,6 +135,29 @@ int main(){
 		promptCode();
 		scanf("%d", &paycode);
 	}
+
+	// Display employees input into the system
+	printf("\nThe following are the employees input for this month:\n");
+	printf("%s%s%s%s%s%s%s%s\n",top,top,top,top,top,top,top,top);
+	for(int x=0; x<c;x++){
+		char* empType;
+		switch(payroll[x].paycode){
+			case 1:
+				strcpy(empType,"Manager");
+				break;
+			case 2:
+				strcpy(empType,"Hourly");
+				break;
+			case 3:
+				strcpy(empType,"Commission");
+				break;
+			case 4:
+				strcpy(empType,"Pieceworker");
+				break;
+		}
+		printf("|  Employee: %12s  |  Type: %12s  |  Total Payment: %9.2f  |\n",&payroll[x].name,empType,payroll[x].total);
+	}
+	printf("%s%s%s%s%s%s%s%s\n",top,top,top,top,top,top,top,top);
 } 
 
 // calculates the total hours in terms of their paycheck
@@ -158,9 +179,9 @@ int addToArray (Employee item){
 	if(c == len)
 	{ 
 		if (len == 0)
-			len = 3; // Start off with 3 refs
+			len = 3; // starting size of array
 		else
-			len *= 2; // Double the number 
+			len *= 2; // double array if out of space
 
 		void *tmp = realloc(payroll, (len * sizeof(Employee)));
 		if (!tmp)
@@ -168,11 +189,8 @@ int addToArray (Employee item){
 			fprintf(stderr, "ERROR: Couldn't realloc memory!\n");
 			return(-1);
 		}
-
-		// Things are looking good so far
 		payroll = (Employee*)tmp;
 	}
-
 	payroll[c] = item;
 	c++;
 
